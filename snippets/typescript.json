@@ -1,0 +1,46 @@
+{
+  "NestJS Controller": {
+    "prefix": "nestjs-controller",
+    "body": [
+      "import { Controller, Get } from '@nestjs/common';",
+      "",
+      "@Controller('$1')",
+      "export class $2Controller {",
+      "  @Get()",
+      "  findAll(): string {",
+      "    return 'This action returns all $1';",
+      "  }",
+      "}"
+    ],
+    "description": "Create a new NestJS controller"
+  },
+  "NestJS Service": {
+    "prefix": "nestjs-service",
+    "body": [
+      "import { Injectable } from '@nestjs/common';",
+      "",
+      "@Injectable()",
+      "export class $1Service {",
+      "  getHello(): string {",
+      "    return 'Hello World!';",
+      "  }",
+      "}"
+    ],
+    "description": "Create a new NestJS service"
+  },
+  "NestJS Module": {
+    "prefix": "nestjs-module",
+    "body": [
+      "import { Module } from '@nestjs/common';",
+      "import { $1Controller } from './$1.controller';",
+      "import { $1Service } from './$1.service';",
+      "",
+      "@Module({",
+      "  controllers: [$1Controller],",
+      "  providers: [$1Service],",
+      "})",
+      "export class $1Module {}"
+    ],
+    "description": "Create a new NestJS module"
+  }
+}
