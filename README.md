@@ -21,3 +21,4 @@ git clone https://github.com/ayberkgezer/nestjs-snippets.git
 - `nestjs-interceptor`: Creates NestJS Interceptor
 - `nestjs-pipe`: Creates NestJS Pipe
 - `nestjs-root-module`: Creates NestJS Root Module
+- `nestjs-decorator`: Creates NestJS Decorator
