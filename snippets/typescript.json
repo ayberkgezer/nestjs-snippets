@@ -128,7 +128,7 @@
     ]
   },
   "NestJS Decorator": {
-    "prefix": "nest-decorator",
+    "prefix": "nestjs-decorator",
     "body": [
       "import { createParamDecorator, ExecutionContext } from '@nestjs/common';",
       "",
@@ -140,5 +140,227 @@
       ");"
     ],
     "description": "Create a custom decorator for a NestJS application"
+  },
+  "NestJS Validation Class": {
+    "prefix": "nestjs-validation",
+    "body": [
+      "import { IsString, IsNumber, IsNotEmpty, IsOptional } from 'class-validator';",
+      "",
+      "export class ${1:Item}ValidationDto {",
+      "  @IsString()",
+      "  @IsNotEmpty()",
+      "  readonly name: string;",
+      "",
+      "  @IsString()",
+      "  @IsOptional()",
+      "  readonly description?: string;",
+      "",
+      "  @IsNumber()",
+      "  @IsNotEmpty()",
+      "  readonly price: number;",
+      "}"
+    ],
+    "description": "Create a validation class using class-validator for a NestJS application"
+  },
+  "NestJS Test File": {
+    "prefix": "nestjs-test",
+    "body": [
+      "import { Test, TestingModule } from '@nestjs/testing';",
+      "import { ${1:App}Controller } from './${2:app}.controller';",
+      "import { ${1:App}Service } from './${2:app}.service';",
+      "",
+      "describe('${1:App}Controller', () => {",
+      "  let controller: ${1:App}Controller;",
+      "  let service: ${1:App}Service;",
+      "",
+      "  beforeEach(async () => {",
+      "    const module: TestingModule = await Test.createTestingModule({",
+      "      controllers: [${1:App}Controller],",
+      "      providers: [${1:App}Service],",
+      "    }).compile();",
+      "",
+      "    controller = module.get<${1:App}Controller>(${1:App}Controller);",
+      "    service = module.get<${1:App}Service>(${1:App}Service);",
+      "  });",
+      "",
+      "  it('should be defined', () => {",
+      "    expect(controller).toBeDefined();",
+      "  });",
+      "",
+      "  describe('findAll', () => {",
+      "    it('should return an array of items', async () => {",
+      "      const result = ['test'];",
+      "      jest.spyOn(service, 'findAll').mockImplementation(() => result);",
+      "",
+      "      expect(await controller.findAll()).toBe(result);",
+      "    });",
+      "  });",
+      "});"
+    ],
+    "description": "Create a test file for a NestJS application"
+  },
+  "NestJS Slash Command": {
+    "prefix": "nestjs-slash-command",
+    "body": [
+      "import { Injectable } from '@nestjs/common';",
+      "import { Context, SlashCommand, Options, SlashCommandContext } from 'necord';",
+      "",
+      "@Injectable()",
+      "export class ${1:App}Commands {",
+      "  @SlashCommand({",
+      "    name: '${2:command}',",
+      "    description: '${3:Command description}',",
+      "  })",
+      "  public async on${4:Command}(",
+      "    @Context() [interaction]: SlashCommandContext,",
+      "    @Options() { ${5:option} }: ${6:OptionDto},",
+      "  ) {",
+      "    return interaction.reply({",
+      "      content: `${7:Command executed successfully}`,",
+      "    });",
+      "  }",
+      "}"
+    ],
+    "description": "Create a slash command using Necord for a NestJS application"
+  },
+  "NestJS Config Module": {
+    "prefix": "nestjs-config-module",
+    "body": [
+      "import { Module } from '@nestjs/common';",
+      "import { ConfigModule } from '@nestjs/config';",
+      "",
+      "@Module({",
+      "  imports: [",
+      "    ConfigModule.forRoot({",
+      "      isGlobal: true,",
+      "      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,",
+      "      validationSchema: ${1:JoiValidationSchema},",
+      "    }),",
+      "  ],",
+      "})",
+      "export class AppModule {}"
+    ],
+    "description": "Import and configure the ConfigModule for a NestJS application"
+  },
+  "NestJS TypeORM Module": {
+    "prefix": "nestjs-typeorm-module",
+    "body": [
+      "import { Module } from '@nestjs/common';",
+      "import { TypeOrmModule } from '@nestjs/typeorm';",
+      "import { ConfigModule, ConfigService } from '@nestjs/config';",
+      "",
+      "@Module({",
+      "  imports: [",
+      "    TypeOrmModule.forRootAsync({",
+      "      imports: [ConfigModule],",
+      "      inject: [ConfigService],",
+      "      useFactory: (configService: ConfigService) => ({",
+      "        type: 'postgres',",
+      "        host: configService.get('DB_HOST', 'localhost'),",
+      "        port: configService.get<number>('DB_PORT', 5432),",
+      "        username: configService.get('DB_USERNAME', 'postgres'),",
+      "        password: configService.get('DB_PASSWORD', 'postgres'),",
+      "        database: configService.get('DB_DATABASE', 'postgres'),",
+      "        entities: ['${1:dist/**/*.entity{.ts,.js}}'],",
+      "        synchronize: configService.get<boolean>('DB_SYNC', false),",
+      "      }),",
+      "    }),",
+      "  ],",
+      "})",
+      "export class AppModule {}"
+    ],
+    "description": "Configure TypeORM with NestJS using ConfigService"
+  },
+  "NestJS Mongoose Module": {
+    "prefix": "nestjs-mongoose-module",
+    "body": [
+      "import { Module } from '@nestjs/common';",
+      "import { MongooseModule } from '@nestjs/mongoose';",
+      "import { ConfigModule, ConfigService } from '@nestjs/config';",
+      "",
+      "@Module({",
+      "  imports: [",
+      "    MongooseModule.forRootAsync({",
+      "      imports: [ConfigModule],",
+      "      inject: [ConfigService],",
+      "      useFactory: (configService: ConfigService) => ({",
+      "        uri: configService.get<string>('MONGODB_URI', 'mongodb://localhost:27017/${1:database}'),",
+      "        useNewUrlParser: true,",
+      "        useUnifiedTopology: true,",
+      "      }),",
+      "    }),",
+      "  ],",
+      "})",
+      "export class AppModule {}"
+    ],
+    "description": "Configure Mongoose with NestJS using ConfigService"
+  },
+  "NestJS Exception Filter": {
+    "prefix": "nestjs-exception-filter",
+    "body": [
+      "import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';",
+      "import { Request, Response } from 'express';",
+      "",
+      "@Catch(HttpException)",
+      "export class ${1:Http}ExceptionFilter implements ExceptionFilter {",
+      "  catch(exception: HttpException, host: ArgumentsHost) {",
+      "    const ctx = host.switchToHttp();",
+      "    const response = ctx.getResponse<Response>();",
+      "    const request = ctx.getRequest<Request>();",
+      "    const status = exception.getStatus();",
+      "",
+      "    response",
+      "      .status(status)",
+      "      .json({",
+      "        statusCode: status,",
+      "        timestamp: new Date().toISOString(),",
+      "        path: request.url,",
+      "        message: exception.message,",
+      "      });",
+      "  }",
+      "}"
+    ],
+    "description": "Create an exception filter for a NestJS application"
+  },
+  "NestJS Entity": {
+    "prefix": "nestjs-entity",
+    "body": [
+      "export class ${1:Item} {",
+      "  id: string;",
+      "  ${2:name}: string;",
+      "  ${3:description}: string;",
+      "  ${4:price}: number;",
+      "  createdAt: Date;",
+      "  updatedAt: Date;",
+      "}"
+    ],
+    "description": "Create an entity class for a NestJS application"
+  },
+  "NestJS DTO": {
+    "prefix": "nestjs-dto",
+    "body": [
+      "export class Create${1:Item}Dto {",
+      "  ${2:name}: string;",
+      "  ${3:description}: string;",
+      "  ${4:price}: number;",
+      "}",
+      "",
+      "export class Update${1:Item}Dto extends Create${1:Item}Dto {}"
+    ],
+    "description": "Create Data Transfer Objects (DTOs) for a NestJS application"
+  },
+  "NestJS Bootstrap": {
+    "prefix": "nestjs-bootstrap",
+    "body": [
+      "import { NestFactory } from '@nestjs/core';",
+      "import { ${1:AppModule} } from './${2:app.module}';",
+      "",
+      "async function bootstrap() {",
+      "  const app = await NestFactory.create(${1:AppModule});",
+      "  await app.listen(process.env.PORT ?? ${3:3000});",
+      "}",
+      "bootstrap();"
+    ],
+    "description": "Bootstrap a NestJS application"
   }
 }
